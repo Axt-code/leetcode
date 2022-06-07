@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        queue<pair<int,int>> Q;
+        
+        for(int i= 0; i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                if(grid[i][j]==1)
+                    Q.push({i,j});
+            }
+        }
+        
+        pair<int, int> dirs[4] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        int localMax=INT_MIN;
+        while(!Q.empty())
+        {
+            auto cur = Q.front();
+            Q.pop();
+            for(auto dir: dirs)
+            {
+                int nx = cur.first + dir.first;
+                int my = cur.second + dir.second;
+                if(nx>=0 && nx<n && my>=0 && my<m && grid[nx][my]==0)
+                {
+                    Q.push({nx, my});
+                    grid[nx][my] = grid[cur.first][cur.second]+1;
+                    localMax = max(grid[nx][my], localMax);
+                }
+            }
+            
+        }
+        return localMax == INT_MIN ? -1 : localMax-1;
+    }
+};
