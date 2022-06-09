@@ -1,0 +1,138 @@
+
+// NOT UNDERSTOOD YET
+class Solution {
+public:
+    
+    vector<vector<bool>> visited;
+    vector<int> dirX = {-1,1,0,0};
+    vector<int> dirY = {0,0,-1,1};
+    int ans = 0;
+    
+    void dfs(vector<vector<int>>& grid, int row, int col, int n, queue<pair<int,int>>& q){
+        
+        visited[row][col] = true;
+        q.push({row,col});
+        
+        for(int i=0;i<4;i++){
+            int r = row + dirX[i];
+            int c = col + dirY[i];
+            
+            if(r>=0 and r<n and c>=0 and c<n ){
+                if(!visited[r][c] and grid[r][c]==1)
+                    dfs(grid, r, c, n,q);
+            }
+        }
+    }
+    
+    int shortestBridge(vector<vector<int>>& grid) {
+        int n = grid.size();
+        visited.resize(n,vector<bool>(n,false));
+        queue<pair<int,int>> q;
+        for(int i=0;i<n;i++){
+            int flag = 0;
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1){
+                    dfs(grid,i,j,n,q);
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag)
+                break;
+        }
+        
+        q.push({-1,-1});
+        
+        while(!q.empty()){
+            pair<int,int> cur = q.front();
+            q.pop();
+            
+            int x = cur.first;
+            int y = cur.second;
+            
+            if(!q.empty()){
+                if(x == -1 and y == -1){
+                    q.push({-1,-1});
+                    ans++;
+                }
+            }
+            
+            for(int i=0;i<4;i++){
+                int rx = x + dirX[i];
+                int cy = y + dirY[i];
+                
+                if(rx>=0 and rx<n and cy>=0 and cy<n){
+                    if(!visited[rx][cy]){
+                        if(grid[rx][cy]==0){
+                            q.push({rx,cy});
+                            visited[rx][cy] = true;
+                        }
+                        if(grid[rx][cy]==1) return ans;
+                    }
+                }
+            }  
+        }
+        return -1;
+    }
+};
+
+
+
+
+
+
+
+
+
+class Solution {
+public:
+    
+    vector<pair<int,int>> q1,q2;
+    int n,m;
+    
+    void dfs(vector<vector<int>>& grid, int i, int j, vector<pair<int,int>> &v)
+    {
+        if(i<0 || i>=n || j<0 || j>=m || grid[i][j]!=1)
+            return;
+        
+        grid[i][j]=2;
+        v.push_back({i,j});
+        dfs(grid, i+1, j, v);
+        dfs(grid, i-1, j, v);
+        dfs(grid, i, j+1, v);
+        dfs(grid, i, j-1, v);
+    }
+    int shortestBridge(vector<vector<int>>& grid) {
+        n = grid.size();
+        m = grid[0].size();
+        
+        int c=0;
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    c++;
+                    if(c==1) dfs(grid, i, j, q1);
+                    if(c==2) dfs(grid, i, j, q2);
+                    else break;
+                }
+            }
+        }
+        
+        
+        int ans= INT_MAX;
+        for(int i=0; i<q1.size(); i++)
+            for(int j=0; j<q2.size(); j++)
+            {
+                
+                int dis = abs(q1[i].first - q2[j].first) + abs(q1[i].second - q2[j].second)-1;
+                ans=min(ans,dis);
+            }
+        
+        return ans;
+        
+    }
+};
+
