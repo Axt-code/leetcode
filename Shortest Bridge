@@ -3,14 +3,17 @@
 class Solution {
 public:
     
-    vector<vector<bool>> visited;
+    int n;
     vector<int> dirX = {-1,1,0,0};
     vector<int> dirY = {0,0,-1,1};
     int ans = 0;
+    queue<pair<int,int>> q;
     
-    void dfs(vector<vector<int>>& grid, int row, int col, int n, queue<pair<int,int>>& q){
+    void dfs(vector<vector<int>>& grid, int row, int col){
         
-        visited[row][col] = true;
+        if(grid[row][col] == 2) return;
+        
+        grid[row][col]=2;
         q.push({row,col});
         
         for(int i=0;i<4;i++){
@@ -18,26 +21,25 @@ public:
             int c = col + dirY[i];
             
             if(r>=0 and r<n and c>=0 and c<n ){
-                if(!visited[r][c] and grid[r][c]==1)
-                    dfs(grid, r, c, n,q);
+                if(grid[r][c]==1)
+                    dfs(grid, r, c);
             }
         }
     }
     
     int shortestBridge(vector<vector<int>>& grid) {
-        int n = grid.size();
-        visited.resize(n,vector<bool>(n,false));
-        queue<pair<int,int>> q;
+        n = grid.size();
+        
         for(int i=0;i<n;i++){
-            int flag = 0;
+            int f = 0;
             for(int j=0;j<n;j++){
                 if(grid[i][j]==1){
-                    dfs(grid,i,j,n,q);
-                    flag = 1;
+                    dfs(grid,i,j);
+                    f = 1;
                     break;
                 }
             }
-            if(flag)
+            if(f)
                 break;
         }
         
@@ -50,7 +52,9 @@ public:
             int x = cur.first;
             int y = cur.second;
             
+            cout<<" x "<<x<<" y "<<y<<endl;
             if(!q.empty()){
+                cout<<" X "<<x<<" Y "<<y<<endl;
                 if(x == -1 and y == -1){
                     q.push({-1,-1});
                     ans++;
@@ -62,10 +66,11 @@ public:
                 int cy = y + dirY[i];
                 
                 if(rx>=0 and rx<n and cy>=0 and cy<n){
-                    if(!visited[rx][cy]){
+                    if(grid[rx][cy]!=2){
                         if(grid[rx][cy]==0){
                             q.push({rx,cy});
-                            visited[rx][cy] = true;
+                            //cout<<" rx "<<rx<<" cy "<<cy<<endl;
+                            grid[rx][cy] = 2;
                         }
                         if(grid[rx][cy]==1) return ans;
                     }
@@ -75,10 +80,6 @@ public:
         return -1;
     }
 };
-
-
-
-
 
 
 
