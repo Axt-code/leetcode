@@ -1,0 +1,58 @@
+//DFS
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        
+        unordered_map<int,bool> vis;
+        vis[0]=true;
+        stack<int> s;
+        s.push(0);
+        
+        while(!s.empty())
+        {
+            int node = s.top();
+            s.pop();
+            for(auto x: rooms[node])
+            {
+                if(vis.find(x) == vis.end())
+                {
+                    vis[x]=true;
+                    s.push(x);
+                }
+            }
+        }
+        return vis.size()==rooms.size();
+    }
+};
+
+
+
+
+//BFS
+class Solution {
+public:
+     bool canVisitAllRooms(vector<vector<int>>& room) {
+       
+        int n = room.size();
+        vector<int> visit(n,false);
+        visit[0] = true;
+
+        queue<int> q;
+        q.push(0);
+        
+        while(!q.empty())
+        {
+            int j = q.front();
+            q.pop();
+            for(auto x: room[j]){
+                if(visit[x]==false){
+                    visit[x] = true;
+                    q.push(x);
+                }
+            }
+        }
+        
+        
+        return n == count(visit.begin(),visit.end(),true);
+    }
+};
