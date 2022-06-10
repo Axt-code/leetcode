@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int n;
+    void dfs(vector<vector<int>>& graph, int node, vector<int>&ds, vector<vector<int>> &ans)
+    {
+        ds.push_back(node);
+        for(auto x: graph[node])
+        {
+            if(x==n-1)
+            {
+                ds.push_back(x);
+                ans.push_back(ds);
+                ds.pop_back();
+            }
+            
+            dfs(graph, x, ds, ans);
+            ds.pop_back();
+        }
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+    
+        n = graph.size();
+        vector<vector<int>> ans;
+        vector<int> ds;
+        dfs(graph, 0, ds, ans);
+        return ans;
+    }
+};
