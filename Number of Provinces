@@ -1,0 +1,89 @@
+
+//DFS
+
+class Solution {
+public:
+    int n;
+    void dfs(vector<vector<int>>& Con, vector<bool>& vis, int node)
+    {
+        vis[node]=true;
+        {
+            for(int i=0; i<n; i++)
+            {
+                if(Con[node][i]==1 && vis[i]==false)
+                {
+                    dfs(Con, vis, i);
+                }
+            }
+        }
+    }
+    int findCircleNum(vector<vector<int>>& Con) {
+        
+        n= Con.size();
+        stack<int> st;
+        st.push(0);
+        vector<bool> vis(n, false);
+        //memset(vis, vis.size(), flase);
+        
+        int ans=0;
+        for(int i=0; i<n; i++)
+        {
+            if(!vis[i])
+            {
+                ans++;
+                dfs(Con, vis, i);
+            }
+        }
+        
+        return ans;
+        
+    }
+};
+
+
+//BFS
+class Solution {
+public:
+    int n;
+    void bfs(vector<vector<int>>& Con, vector<bool>& vis, int node)
+    {
+        vis[node]=true;
+        queue<int> Q;
+        Q.push(node);
+        
+        while(!Q.empty())
+        {
+            int x = Q.front();
+            Q.pop();
+            for(int i=0; i<n; i++)
+            {
+                if(Con[x][i]==1 && vis[i]==false)
+                {
+                    Q.push(i);
+                    vis[i]=true;
+                }
+            }
+        }
+    }
+    int findCircleNum(vector<vector<int>>& Con) {
+        
+        n= Con.size();
+        stack<int> st;
+        st.push(0);
+        vector<bool> vis(n, false);
+        //memset(vis, vis.size(), flase);
+        
+        int ans=0;
+        for(int i=0; i<n; i++)
+        {
+            if(!vis[i])
+            {
+                ans++;
+                bfs(Con, vis, i);
+            }
+        }
+        
+        return ans;
+        
+    }
+};
