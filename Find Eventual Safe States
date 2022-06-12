@@ -1,0 +1,50 @@
+class Solution {
+public:
+    
+	//this function returns true if there is cycle or false otherwise. 
+    bool cycle(int node, vector<int>&vis, vector<int>&dfsvis, vector<vector<int>>&graph){
+	//we entered into the function of finding cycle
+	//we marked vis and dfsvis as 1 at the starting stating that this node is now the visited and is part of the current directed path that we are going to visit, if any of the node at this path is visited then we will return true stating that this path and all the nodes of this path ends up making a cycle
+        vis[node] = 1;
+        dfsvis[node] = 1;
+        
+        for(int x: graph[node]){
+            if(!vis[x]){
+                if(cycle(x, vis, dfsvis,graph)){
+                    return true;
+                }
+            }
+            
+            else{
+                if(dfsvis[x]){
+                    return true;
+                }
+            }
+        }
+        
+		//but if we do not find any adjacent node of this node making up cycle then we will return false and we also mark it 0 stating that this node is no more in the path we are visiting 
+        dfsvis[node] = 0;
+        return false;
+    }
+    
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        vector<int>ans;
+        int n = graph.size();
+        vector<int>vis(n,0);
+        vector<int>dfsvis(n, 0);
+        
+        for(int i = 0; i<n; i++){
+            if(vis[i]==0){
+                cycle(i,vis, dfsvis, graph);
+            }
+        }
+        
+        for(int i = 0;i<n; i++){
+            if(dfsvis[i]==0){
+                ans.push_back(i);
+            }
+        }
+        
+        return ans;
+    }
+};
