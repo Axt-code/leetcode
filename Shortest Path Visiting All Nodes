@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int shortestPathLength(vector<vector<int>>& graph) {
+        int n = graph.size();
+        int endmask = (1<<n) - 1;
+        
+        if(n==1) return 0;
+        
+        set<pair<int, int>> s;
+        queue<pair<int, int>> Q;
+        
+        for(int i =0; i<n; i++)
+        {
+            Q.push({i, 1<<i});
+            s.insert({i, 1<<i});
+        }
+        
+        int step = 0;
+        
+        while(!Q.empty())
+        {
+            int sz = Q.size();
+            for(int i=0; i<sz; i++)
+            {
+                auto cur = Q.front();
+                Q.pop();
+                
+                for(auto x : graph[cur.first])
+                {
+                     int mask = cur.second | (1<<x);
+                    
+                    if(mask == endmask) return step+1;
+                    
+                    if(s.find({x, mask})==s.end())
+                    {
+                        Q.push({x, mask});
+                        s.insert({x, mask});
+                    }
+                    
+                }
+               
+            }
+            step++;
+        }
+        
+        return -1;
+    }
+};
