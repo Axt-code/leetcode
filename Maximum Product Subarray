@@ -1,0 +1,53 @@
+// METHOD 1
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        
+        int n = nums.size();
+        int maxSub = nums[0];
+        int minSub = nums[0];
+        int ans = nums[0];
+        
+        for(int i=1; i<n; i++)
+        {
+            if(nums[i]<0)
+                swap(maxSub, minSub);
+            
+            maxSub = max(maxSub*nums[i], nums[i]);
+            minSub = min(minSub*nums[i], nums[i]);
+            
+            ans = max(ans, maxSub);
+        }
+        
+        return ans;
+    }
+};
+
+
+
+
+// METHOD 2
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+         int n = nums.size();
+         int maxp = INT_MIN;
+         int prod = 1;
+         for(int i=0; i<n; i++)
+         {
+             prod*=nums[i];
+             maxp = max(maxp, prod);
+             if(prod==0) prod = 1;
+         }
+         
+        prod = 1;
+        for(int i=n-1; i>=0; i--)
+        {
+            prod*=nums[i];
+            maxp = max(maxp, prod);
+            if(prod==0) prod = 1;
+        }
+        return maxp;
+    
+    }
+};
