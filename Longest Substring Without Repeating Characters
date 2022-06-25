@@ -1,3 +1,5 @@
+// Slinding Window 
+// TC: O(2*n) Sc: O(n)
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
@@ -33,5 +35,30 @@ public:
         }
         
         return mlen;
+    }
+};
+
+
+//Better optimized
+//TC: O(n) Sc:O(n)
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> mp(255, -1);
+        int l=0, r=0;
+        int n = s.length();
+        int len=1;
+        while(r<n)
+        {
+            if(mp[s[r]]!=-1) l=max(mp[s[r]] + 1, l);
+             
+            mp[s[r]] = r;
+            
+            len = max(r-l+1, len);
+            r++;
+        }
+        
+        return len;
+        
     }
 };
