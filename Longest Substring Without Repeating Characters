@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        
+        int n= s.length();
+        if(n==0) return 0;
+       // cout<<n<<endl;
+        int mlen=1;
+        int len=1;
+        
+        int l=0,r=1;
+        
+        set<char> st;
+        st.insert(s[0]);
+      
+        while(l<=r && r<n)
+        {
+             
+            if(st.find(s[r]) == st.end())
+            {
+               
+                st.insert(s[r]);
+                len = r-l+1;
+                mlen=max(mlen, len);
+                r++;
+            }
+            else
+            {
+                st.erase(s[l]);
+                l++;
+            }
+          
+        }
+        
+        return mlen;
+    }
+};
