@@ -1,0 +1,48 @@
+class Solution {
+public:
+    bool compare(vector<int> h1, vector<int> h2)
+    {
+        for(int i=0; i<h1.size(); i++)
+        {
+            if(h1[i]!=h2[i]) return false;
+        }
+        return true;
+    }
+    bool checkInclusion(string s1, string s2) {
+        
+        vector<int> hold1(27,0);
+        vector<int> hold2(27,0);
+        
+        if(s1.length()>s2.length()) return false;
+        
+        for(int i=0; i< s1.length(); i++)
+        {
+            hold1[s1[i]-97]++;
+        }
+        
+        for(int i=0; i<s1.length(); i++)
+        {
+            hold2[s2[i]-97]++;
+        }
+        
+        bool eql = compare(hold1, hold2);
+        if(eql) return true;
+        
+        int l=0, r=s1.length()-1;
+        
+        while(r<s2.length()-1)
+        {
+           
+            hold2[s2[l]-97]--;
+            l++;
+            r++;
+            hold2[s2[r]-97]++;
+            
+            eql = compare(hold1, hold2);
+            if(eql) return true;
+            
+        }
+        
+        return false;
+    }
+};
