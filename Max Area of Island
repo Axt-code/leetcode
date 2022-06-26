@@ -1,3 +1,4 @@
+//DFS
 class Solution {
 public:
     int Row, Col;
@@ -63,7 +64,7 @@ public:
 
 
 
-
+//DFS
 
 class Solution {
 public:
@@ -102,5 +103,56 @@ public:
             }
         }
         return maxArea;
+    }
+};
+
+
+
+///BFS
+class Solution {
+public:
+    
+    int dx[4] = {-1, 0, 1, 0};
+    int dy[4] = {0, -1, 0, 1};
+    
+    int bfs(vector<vector<int>>& grid, int i, int j, int area) {
+        grid[i][j] = 0;
+        
+        queue<pair<int, int>> q;
+        q.push({i, j});
+        
+        while(!q.empty()) {
+            pair <int, int> p = q.front();
+            q.pop();
+            
+            int x= p.first;
+            int y = p.second;
+            
+            for(int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                
+                if(nx < 0 || nx >= grid.size() || ny < 0 || ny >= grid[0].size() || grid[nx][ny] == 0) continue;
+                else {
+                    area++;
+                    q.push({nx, ny});
+                    grid[nx][ny] = 0;
+                }
+            }
+        }
+        return area;
+        
+    }
+    
+    
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int ans = 0;
+        for(int i = 0; i < grid.size(); i++) {
+            for(int j = 0; j < grid[0].size(); j++) {
+                if(grid[i][j] == 1)
+                    ans = max(ans, bfs(grid, i, j, 1));
+            }
+        }
+        return ans;
     }
 };
