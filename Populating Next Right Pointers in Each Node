@@ -1,3 +1,4 @@
+//LEVELORDER ITERATIVE
 /*
 // Definition for a Node.
 class Node {
@@ -73,6 +74,63 @@ public:
            // cout<<endl;
         }
         
+        return root;
+    }
+};
+
+
+//PREORDER RECURSIVE
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    void preorder(Node* root, Node* parent, bool isleftchild)
+    {
+        //codition 1
+        if(!root) return;
+        
+        //codition 2
+        else if(!parent)
+            root->next= NULL;
+        
+        //codition 3
+        else if(isleftchild)
+            root->next = parent->right;
+        
+        //codition 4
+        else{
+            
+            //codition 4.1
+            if(parent->next==NULL)
+                root->next=NULL;
+            
+            //codition 4.2
+            else
+                root->next=parent->next->left;
+        }
+        
+        
+        preorder(root->left, root, true);
+        preorder(root->right, root, false);
+    }
+    Node* connect(Node* root) {
+        preorder(root, nullptr, NULL);
         return root;
     }
 };
