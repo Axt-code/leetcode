@@ -12,7 +12,7 @@ public:
                 else mat[i][j]=-1;
             }
         }
-        
+         // pushing those value in Queue which can be taken as refrence for calculating the distance;
         pair<int, int> dirs[4] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
         
         while(!Q.empty())
