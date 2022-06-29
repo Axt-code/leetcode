@@ -1,0 +1,81 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        
+        
+    
+        int n = grid.size();
+        int m = grid[0].size();
+        
+         vector<vector<int>> dis( n , vector<int> (m, 0));
+        
+        queue<pair<int,int>> Q;
+        
+        int flag = 0;
+        for(int i=0; i<n; i++)
+        {    for(int j=0; j<m; j++)
+            {
+                if(grid[i][j]==2)
+                {
+                    Q.push({i,j});
+                    dis[i][j]=0;
+                }
+                else if(grid[i][j]==1) 
+                {
+                    flag=1;
+                    dis[i][j]=0;
+                }
+                    
+                else
+                    dis[i][j]=-1;
+                    
+              //  cout<<i<<" "<<j<<endl;
+                    
+            }
+       }
+        
+        if(flag==0) return 0;
+        
+
+        
+        vector<pair<int,int>> dirs = {{0,1}, {1,0}, {-1,0}, {0,-1}};
+        
+        while(!Q.empty())
+        {
+            auto p = Q.front();
+            Q.pop();
+            
+            for(auto x:dirs)
+            {
+                int nr = p.first + x.first;
+                int nc = p.second + x.second;
+                
+                if(nr<0 || nr>= n || nc<0 || nc>=m || grid[nr][nc]!=1)
+                    continue;
+                
+                else
+                {
+                    cout<<nr<<" "<<nc<<endl;
+                    Q.push({nr,nc});
+                    grid[nr][nc] = 2;
+                    dis[nr][nc] = dis[p.first][p.second] + 1;
+                   
+                }
+            }
+        }
+        
+        
+       int maxTime=-1;
+        for(int i=0; i<n; i++)
+        {    for(int j=0; j<m; j++)
+            {
+                if(grid[i][j]==1) 
+                    return -1;
+                 maxTime = max(maxTime, dis[i][j]);
+            
+            }
+       }
+        return maxTime;
+        
+    }
+};
