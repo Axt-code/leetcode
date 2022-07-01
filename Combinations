@@ -1,0 +1,33 @@
+// ITERATIVE
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+     
+        vector<vector<int>> res;
+        
+        if(k>n) return res;
+        
+        vector<int> com(k,0);
+        
+        int i=0;
+        
+        while(i>=0)
+        {
+            com[i]++;
+            
+            if(com[i]>n)
+                i--;
+            else if(i==k-1)
+                res.push_back(com);
+            else
+            {
+                i++;
+                com[i]=com[i-1];
+            }
+        }
+        
+        return res;
+    }
+};
+
+//
