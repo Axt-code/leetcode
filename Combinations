@@ -31,3 +31,37 @@ public:
 };
 
 //
+
+// RECURSIVE
+class Solution {
+public:
+    vector<vector<int>> res;
+    vector<vector<int>> combine(int n, int k) {
+        
+        if(k>n) return res;
+        vector<int> temp;
+        
+        comb(temp, n, k, 1);
+        
+        return res;
+    }
+    
+    void comb(vector<int> &temp, int n, int k, int ind)
+    {
+        if(temp.size()==k)
+        {
+            res.push_back(temp);
+            return;
+        }
+        
+        else
+        {
+            for(int i=ind; i <=n; i++)
+            {
+                temp.push_back(i);
+                comb(temp, n, k, i+1);
+                temp.pop_back();
+            }
+        }
+    }
+};
