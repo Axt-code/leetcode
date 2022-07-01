@@ -1,0 +1,68 @@
+class Solution
+{
+    vector<vector<int>> ans;
+
+public:
+    void helper(int idx, vector<int> &a)
+    {
+        if (idx == a.size())
+        {
+            ans.push_back(a);
+            return;
+        }
+
+        for (int k = idx; k < a.size(); k++)
+        {
+            swap(a[k], a[idx]);
+            helper(idx + 1, a);
+            swap(a[k], a[idx]);
+        }
+        return;
+    }
+
+    vector<vector<int>> permute(vector<int> &nums)
+    {
+        helper(0, nums);
+        return ans;
+    }
+};
+
+
+
+//
+class Solution
+{
+    vector<vector<int>> ans;
+
+public:
+    void permut(vector<int> &temp, int curr, int total, vector<int> &nums)
+    {
+        if (curr > total)
+        {
+          
+            ans.push_back(temp);
+        }
+        for (int i = 0; i < temp.size(); i++)
+        {
+            if (temp[i] == 11) //Because our constraints are only till 10
+            {
+                temp[i] = nums[curr];
+                for(int i=0;i<temp.size(); i++)
+            {
+                cout<<curr<<": "<<temp[i]<<" ";
+            }
+            cout<<endl;
+                permut(temp, curr + 1, total, nums);
+                temp[i] = 11;
+            }
+            
+        }
+    }
+
+    vector<vector<int>> permute(vector<int> &nums)
+    {
+        vector<int> helper(nums.size(), 11);
+        permut(helper, 0, nums.size()-1, nums);
+        return ans;
+    }
+};
