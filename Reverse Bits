@@ -1,0 +1,19 @@
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        
+        uint32_t  t =0;
+        
+        long int x = pow(2, 31);
+        
+        while(x)
+        {
+            uint32_t temp = n%2;
+            n/=2;
+            t+=x*temp;
+            x/=2;
+        }
+        
+        return t;
+    }
+};
