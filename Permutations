@@ -66,3 +66,41 @@ public:
         return ans;
     }
 };
+
+
+//UNDERSTOOD
+class Solution {
+public:
+    vector<vector<int>> ans;
+    
+    void perm(vector<int>& s, vector<int> & a, vector<int>& res, int k)
+    {
+        int n = s.size();
+        
+        
+        if(k==n)
+        {
+            ans.push_back(res);
+            return;
+        }
+        
+        for(int i=0; i<n; i++)
+        {
+             if(a[i]==0)
+             {
+                 res[k]=s[i];
+                 a[i]=1;
+                 perm(s, a, res, k+1);
+                 a[i]=0;
+             }
+        }
+        return;
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> a(n,0);
+        vector<int> res(n,0);
+        perm(nums,a, res, 0);
+        return ans;
+    }
+};
