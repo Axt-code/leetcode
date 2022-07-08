@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        //create map
+        unordered_map<int, int> map;
+        //intiliaze sum and ans
+        int sum=0;
+        int ans=0;
+        map[sum]=1;
+        //traverse the array
+        for(int i=0; i<nums.size(); i++)
+        {
+            sum+=nums[i];
+            int pre = sum-k;
+          //  if(nums[i]==k) ans++;
+            if(map.find(pre)!= map.end())
+            {
+                ans+=map[pre];
+            }
+            map[sum]++;
+        }
+        return ans;
+    }
+};
