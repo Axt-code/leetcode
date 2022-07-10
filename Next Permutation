@@ -1,0 +1,44 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n =  nums.size();
+      
+        if(n==1)
+            return ;
+        
+        int inf=0;
+        for(int i=n-1; i>0; i--)
+        {
+            if(nums[i]>nums[i-1])
+            {
+                inf=i;
+                break;
+            }
+        }
+       //cout<<inf<<endl;
+        if(inf ==0 )
+            sort(nums.begin(), nums.end());
+        
+        else
+        {
+             int min = INT_MAX;
+             int minind=0;
+      
+            for(int i = inf; i<n; i++)
+            {
+                if(nums[i]-nums[inf-1]>0 && nums[i]-nums[inf-1]<min)
+                {
+                    min=nums[i]-nums[inf-1];
+                    minind=i;
+                }
+            }
+            //cout<<nums[inf-1]<<endl;
+            //cout<<nums[minind]<<endl;
+            swap(nums[inf-1],nums[minind]);
+            //cout<<nums[inf-1]<<endl;
+            //cout<<nums[minind]<<endl;
+            sort(nums.begin()+inf, nums.end());
+         
+        }
+    }
+};
