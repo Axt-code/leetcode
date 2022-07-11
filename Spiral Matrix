@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& mat) {
+        if(mat.size()==0)
+            return {};
+        
+        int lc=0,lr=0;
+        int hr=mat.size()-1, hc=mat[0].size()-1;
+        
+        cout<<lc<<" "<<lr<<" "<<hc<<" "<<hr<<endl;
+        vector<int> ans;
+        while(lc<=hc && lr<=hr)
+        {
+           
+            for(int j=lc; j<=hc; j++)
+            {
+                ans.push_back(mat[lr][j]);
+            }
+          
+            for(int i=lr+1; i<=hr; i++)
+            {
+                ans.push_back(mat[i][hc]);
+            }
+          //  cout<<lc<<" "<<lr<<" "<<hc<<" "<<hr<<endl;
+            if(lr!=hr)
+            {
+                for(int j=hc-1; j>=lc; j--)
+                {
+                    ans.push_back(mat[hr][j]);
+                }
+            }
+            if(lc!=hc)
+            {
+                for(int i=hr-1; i>lr; i--)
+                {
+                    ans.push_back(mat[i][lc]);
+                }
+            }
+            lr++;lc++;hc--;hr--;
+        }
+        
+        return ans;
+    }
+};
